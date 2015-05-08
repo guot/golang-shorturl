@@ -3,11 +3,16 @@ package shorturl
 import (
 	"bytes"
 	"compress/lzw"
+	"crypto/md5"
+	"encoding/base64"
+	"encoding/hex"
 	"fmt"
+	"hash/crc32"
 	"testing"
+	"time"
 )
 
-func TestMain(t *testing.T) {
+func aTestMain(t *testing.T) {
 	//	Encoder("")
 	litw := 8
 
@@ -43,4 +48,17 @@ func TestMain(t *testing.T) {
 	fmt.Println("read", r, "bytes")
 	fmt.Printf("::out:%s", output)
 
+}
+func ExampleEncoding_EncodeToString() {
+	data := []byte("any + old & datadsfasfasdfasdfaslkjweiojasdfkjwe rfiowjalsdjkf weijlajsdf isajfewl")
+	str := base64.StdEncoding.EncodeToString(data)
+	md := md5.New()
+	md.Write([]byte("com_ceo1")) // 需要加密的字符串为 123456
+	time.Now().String()
+	crc := crc32.NewIEEE()
+	crc.Write([]byte("com_ceo1"))
+	fmt.Println("asdfsadf:", hex.EncodeToString(crc.Sum(nil)))
+	fmt.Println("asdfsadf:", hex.EncodeToString(md.Sum(nil)), ":", str)
+	// Output:
+	// YW55ICsgb2xkICYgZGF0YQ==
 }
